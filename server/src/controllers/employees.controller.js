@@ -12,16 +12,19 @@ employeeCtrl.getEmployees = async (req, res) =>{
     res.json(employees);
 }
 
-employeeCtrl.getEmployee = (req, res) =>{
-    res.send("Obtener Empleado");
+employeeCtrl.getEmployee = async (req, res) =>{
+    const employee = await Employee.findById(req.params.id)
+    res.json(employee);
 }
 
-employeeCtrl.editEmployee = (req, res) =>{
-    res.send("Editar Empleado");
+employeeCtrl.editEmployee = async(req, res) =>{
+    await Employee.findByIdAndUpdate(req.params.id, req.body);
+    res.json({message: "Empleado actualizado"});
 }
 
-employeeCtrl.deleteEmployee = (req, res) =>{
-    res.send("Eliminar Empleado");
+employeeCtrl.deleteEmployee = async(req, res) =>{
+    await Employee.findByIdAndDelete(req.params.id);
+    res.json({message: "Empleado eliminado"});
 }
 
 module.exports = employeeCtrl;
