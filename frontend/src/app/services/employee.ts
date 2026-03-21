@@ -9,9 +9,9 @@ export class Employee {
   URL_API = 'http://localhost:3000/api/employees/';
 
   constructor(private http: HttpClient) { }
-
+   employees: EmployeeModel[] = [];
   getEmployee() {
-    return this.http.get(this.URL_API);
+    return this.http.get<EmployeeModel[]>(this.URL_API);
   }
   
 }

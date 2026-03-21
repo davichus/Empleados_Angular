@@ -1,20 +1,27 @@
 import { Component } from '@angular/core';
-import { Employee as EmployeeService } 
-from '../../services/employee';
+import { Employee as EmployeeService }
+  from '../../services/employee';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-employee',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './employee.html',
   styleUrl: './employee.css',
 })
 export class Employee {
-  constructor(private employeeService: EmployeeService) { }
-  ngOnInit():void{
-    console.log(
-      this.employeeService.getEmployee().subscribe(
-      res => console.log(res),
+  constructor(public employeeService: EmployeeService) { }
+
+  ngOnInit(): void {
+    this.getEmployees();
+
+  }
+  getEmployees() {
+    this.employeeService.getEmployee().subscribe(
+      res => {
+        this.employeeService.employees = res;
+      },
       err => console.log(err)
-    ));
+    );
   }
 
 }

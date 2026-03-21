@@ -1,7 +1,7 @@
 export interface Employee {
     name: string,
-    oficce: string,
     position: string,
+    office: string,
     salary: number,
     createdAt: Date,
     updatedAt: Date,
