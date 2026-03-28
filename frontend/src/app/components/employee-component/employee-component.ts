@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class EmployeeComponent {
   private employeeService = inject(EmployeeService);
-  employee = signal<Employee[]>([]);
+  employees = signal<Employee[]>([]);
   cargando = signal(true);
   error = signal<string | null>(null);
   selectedEmployee = signal<Employee>({
@@ -31,7 +31,7 @@ export class EmployeeComponent {
     this.cargando.set(true);
     this.employeeService.getEmployees().subscribe({
       next: (data)=> {
-        this.employee.set(data);
+        this.employees.set(data);
         this.cargando.set(false);
       },
       error:()=>{

@@ -1,1 +1,114 @@
-<p>employee-component works!</p>
+<div class="row">
+<div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+
+        <h4>
+          @if(isEditing()) { Editar Empleado } @else { Nuevo Empleado }
+        </h4>
+
+        <form (ngSubmit)="saveEmployee()">
+
+          <input class="form-control mb-2"
+                 placeholder="Nombre"
+                 [ngModel]="selectedEmployee().name"
+                 (ngModelChange)="updateField('name', $event)"
+                 name="name">
+
+          <input class="form-control mb-2"
+                 placeholder="Oficina"
+                 [ngModel]="selectedEmployee().office"
+                 (ngModelChange)="updateField('office', $event)"
+                 name="office">
+
+          <input class="form-control mb-2"
+                 placeholder="Cargo"
+                 [ngModel]="selectedEmployee().position"
+                 (ngModelChange)="updateField('position', $event)"
+                 name="position">
+
+          <input class="form-control mb-2"
+                 type="number"
+                 placeholder="Salario"
+                 [ngModel]="selectedEmployee().salary"
+                 (ngModelChange)="updateField('salary', $event)"
+                 name="salary">
+
+          <button class="btn btn-success w-100">
+            @if(isEditing()) { Actualizar } @else { Guardar }
+          </button>
+
+          <button type="button"
+                  class="btn btn-secondary w-100 mt-2"
+                  (click)="resetForm()">
+            Cancelar
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTADO -->
+  <div class="col-md-8">
+
+    @if(cargando()) {
+      <div class="spinner-border text-primary"></div>
+    }
+
+    @if(error()) {
+      <div class="alert alert-danger">
+        {{ error() }}
+      </div>
+    }
+
+    @if(!cargando() && !error()) {
+
+      <table class="table table-striped table-hover">
+
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Oficina</th>
+            <th>Cargo</th>
+            <th>Salario</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for(employee of employees(); track employee._id) {
+            <tr>
+              <td>{{ employee.name }}</td>
+              <td>{{ employee.office }}</td>
+              <td>{{ employee.position }}</td>
+              <td>{{ employee.salary }}</td>
+              <td>
+                <button class="btn btn-primary btn-sm"
+                        (click)="editEmployee(employee)">
+                  Editar
+                </button>
+
+                <button class="btn btn-danger btn-sm"
+                        [disabled]="!employee._id"
+                        (click)="employee._id && deleteEmployee(employee._id)">
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+
+      </table>
+
+      @if(employees().length === 0) {
+        <div class="alert alert-info">
+          No hay empleados
+        </div>
+      }
+
+    }
+
+  </div>
+</div>
