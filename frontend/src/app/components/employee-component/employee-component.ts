@@ -40,5 +40,29 @@ export class EmployeeComponent {
       }
     })
   }
-
+  updateField<K extends keyof Employee>(
+    field: K, value: Employee[K]){
+      this.selectedEmployee.update(emp =>({
+        ...emp,
+        [field]: value
+      }));
+    }
+  saveEmployee(){
+    const emp = this.selectedEmployee();
+    if(this.isEditing()){
+      this.employeeService.putEmployee(emp).subscribe(
+        ()=>{
+      this.loadEmployees();
+        this.resetForm();
+        }
+      );
+    }else{
+      const { _id, ...employeeWithoutId}= emp
+      this.employeeService.
+      createEmployee(employeeWithoutId).subscribe(()=>{
+        this.loadEmployees,
+        this.resetForm();
+      });
+    }
+  }
 }
