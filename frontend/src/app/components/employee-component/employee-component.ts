@@ -65,4 +65,27 @@ export class EmployeeComponent {
       });
     }
   }
+    editEmployee(employee: Employee) {
+    this.selectedEmployee.set({ ...employee });
+    this.isEditing.set(true);
+  }
+
+  deleteEmployee(id: string) {
+    console.log(id)
+    if (!confirm('¿Seguro que deseas eliminar?')) return;
+
+    this.employeeService.deleteEmployee(id).subscribe(() => {
+      this.loadEmployees();
+    });
+  }
+  resetForm() {
+    this.selectedEmployee.set({
+      _id: '',
+      name: '',
+      office: '',
+      position: '',
+      salary: 0
+    });
+    this.isEditing.set(false);
+  }
 }
