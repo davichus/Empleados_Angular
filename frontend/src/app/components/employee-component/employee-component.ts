@@ -47,24 +47,22 @@ export class EmployeeComponent {
         [field]: value
       }));
     }
-  saveEmployee(){
-    const emp = this.selectedEmployee();
-    if(this.isEditing()){
-      this.employeeService.putEmployee(emp).subscribe(
-        ()=>{
+saveEmployee() {
+  const emp = this.selectedEmployee();
+
+  if (this.isEditing()) {
+    this.employeeService.putEmployee(emp).subscribe(() => {
       this.loadEmployees();
-        this.resetForm();
-        }
-      );
-    }else{
-      const { _id, ...employeeWithoutId}= emp
-      this.employeeService.
-      createEmployee(employeeWithoutId).subscribe(()=>{
-        this.loadEmployees,
-        this.resetForm();
-      });
-    }
+      this.resetForm();
+    });
+  } else {
+    const { _id, ...employeeWithoutId } = emp;
+    this.employeeService.createEmployee(employeeWithoutId).subscribe(() => {
+      this.loadEmployees();
+      this.resetForm();
+    });
   }
+}
     editEmployee(employee: Employee) {
     this.selectedEmployee.set({ ...employee });
     this.isEditing.set(true);
